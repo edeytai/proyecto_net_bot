@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "EntradaService.cpp"
+#include "ConexionesCompudatora.cpp"
 #include <map>
 
 int main(int argc, char const *argv[])
