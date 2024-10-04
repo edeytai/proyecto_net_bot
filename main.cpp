@@ -7,8 +7,10 @@
 
 int main(int argc, char const *argv[])
 {
-
+    ConexionesCompudatora<Entrada> pc1 = ConexionesCompudatora<Entrada> ("198.23", "mi pc");
+   
     std::vector<Entrada> db = EntradaService<Entrada>::ObtenerDB("equipo2.csv");
+    pc1.rellenarRegistros(db);
     int documentDbSize= EntradaService<Entrada>::getSize(db);
     int documentDbSecondDaySize= EntradaService<Entrada>::getSizeByDay(db, "12-8-2020");
     std::cout << "Hay un total de " <<documentDbSize<<" registros" <<std::endl;
