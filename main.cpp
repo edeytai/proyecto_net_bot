@@ -7,9 +7,12 @@
 
 int main(int argc, char const *argv[])
 {
-    ConexionesCompudatora<Entrada> pc1 = ConexionesCompudatora<Entrada> ("198.23", "mi pc");
    
-    std::vector<Entrada> db = EntradaService<Entrada>::ObtenerDB("equipo2.csv");
+   
+    std::vector<Entrada> db  = EntradaService<Entrada>::ObtenerDB("equipo2.csv");
+    
+    std::string direccionRedInternaPc = EntradaService<Entrada>::internalNetworkAddress(db);
+     ConexionesCompudatora<Entrada> pc1 = ConexionesCompudatora<Entrada> (direccionRedInternaPc, "mi pc");
     pc1.rellenarRegistros(db);
     int documentDbSize= EntradaService<Entrada>::getSize(db);
     int documentDbSecondDaySize= EntradaService<Entrada>::getSizeByDay(db, "12-8-2020");
