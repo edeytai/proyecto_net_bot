@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "EntradaService.cpp"
-#include "ConexionesCompudatora.cpp"
+#include "ConexionesCompudatora.cpp"79
 #include <map>
 
 int main(int argc, char const *argv[])
@@ -14,6 +14,7 @@ int main(int argc, char const *argv[])
     std::string direccionRedInternaPc = EntradaService<Entrada>::internalNetworkAddress(db);
      ConexionesCompudatora<Entrada> pc1 = ConexionesCompudatora<Entrada> (direccionRedInternaPc, "mi pc");
     pc1.rellenarRegistros(db);
+
     int documentDbSize= EntradaService<Entrada>::getSize(db);
     int documentDbSecondDaySize= EntradaService<Entrada>::getSizeByDay(db, "12-8-2020");
     std::cout << "Hay un total de " <<documentDbSize<<" registros" <<std::endl;

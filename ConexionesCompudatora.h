@@ -47,7 +47,7 @@ inline void ConexionesCompudatora<T>::rellenarRegistros(std::vector<T> &db)
         }
         if (ipComputadora ==db[i].ipOrigen)
         {
-            conexionesSalientes.push_back(db[i]);
+            conexionesSalientes.push(db[i]);
           
         }
         
@@ -59,7 +59,7 @@ inline void ConexionesCompudatora<T>::rellenarRegistros(std::vector<T> &db)
     std::cout << "" << std::endl;
     std::cout << "La base de registros tiene un total de " << db.size()<< " registros, la ip de la computadora es "<< ipComputadora<<  std::endl;
     std::cout << "Hay un total de conexiones entrantes: " << conexionesEntrantes.size()<< std::endl;
-    std::cout << "Hay un total de conexiones salientes: " << conexionesEntrantes.size()<< std::endl;
+    std::cout << "Hay un total de conexiones salientes: " << conexionesSalientes.size()<< std::endl;
     std::cout << "" << std::endl;
     std::cout << "______________________________" << std::endl;
     std::cout << "" << std::endl;
