@@ -120,7 +120,7 @@ void ConexionesCompudatora<T>::obtenerUltimaConexionEntrante()
     std::string ip = ultimaConexion.ipOrigen;
 
     std::string tipoConexion;
-    if (ip.substr(0, 7) == "192.168.86") 
+    if (ip.substr(0, 10) == "192.168.86") 
     {
         tipoConexion = "interna";
     } 
