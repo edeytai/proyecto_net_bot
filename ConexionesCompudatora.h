@@ -67,20 +67,17 @@ inline void ConexionesCompudatora<T>::rellenarRegistros(std::vector<T> &db)
 }
 
 template <typename T>
- void ConexionesCompudatora<T>::comprobarRegistrosConsecutivos()
+void ConexionesCompudatora<T>::comprobarRegistrosConsecutivos()
 {
     int contadorConsecutivos = 0;
-    for (size_t i = 0; i < conexionesEntrantes.size(); i++)
+    for (size_t i = 1; i < conexionesSalientes.size(); i++) 
     {
-       // if (conexionesEntrantes. .ipOrigen==conexionesEntrantes[i-1].ipOrigen)
-       // {
-       //     contadorConsecutivos++;
-       // }
-        
+        if (conexionesSalientes[i].ipDestino == conexionesSalientes[i - 1].ipDestino) 
+        {
+            contadorConsecutivos++;
+        }
     }
-
-    std::cout << "Hubo un total de " <<contadorConsecutivos <<  "conexioens consecutivas"<<  std::endl;
-    
+    std::cout << "Hubo un total de " << contadorConsecutivos << " conexiones consecutivas con el mismo destino" << std::endl;
 }
 
 #endif

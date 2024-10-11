@@ -15,6 +15,8 @@ int main(int argc, char const *argv[])
      ConexionesCompudatora<Entrada> pc1 = ConexionesCompudatora<Entrada> (direccionRedInternaPc, "mi pc");
     pc1.rellenarRegistros(db);
 
+    pc1.comprobarRegistrosConsecutivos();
+
     int documentDbSize= EntradaService<Entrada>::getSize(db);
     int documentDbSecondDaySize= EntradaService<Entrada>::getSizeByDay(db, "12-8-2020");
     std::cout << "Hay un total de " <<documentDbSize<<" registros" <<std::endl;
