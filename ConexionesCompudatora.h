@@ -118,9 +118,10 @@ void ConexionesCompudatora<T>::obtenerUltimaConexionEntrante()
 
     T ultimaConexion = conexionesEntrantes.back();
     std::string ip = ultimaConexion.ipOrigen;
+    std::string redInterna = EntradaService<T>::internalNetworkAddress(conexionesEntrantes);
 
     std::string tipoConexion;
-    if (ip.substr(0, 10) == "192.168.86") 
+    if (ip.substr(0, redInterna.length()) == redInterna) 
     {
         tipoConexion = "interna";
     } 
@@ -128,6 +129,7 @@ void ConexionesCompudatora<T>::obtenerUltimaConexionEntrante()
     {
         tipoConexion = "externa";
     }
+
     std::cout << "La última conexión que recibió la computadora fue desde la IP: " << ip << " y es una conexión " << tipoConexion << "." << std::endl;
 }
 
