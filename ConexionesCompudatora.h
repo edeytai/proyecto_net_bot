@@ -11,7 +11,7 @@ class ConexionesCompudatora
 private:
     std::string  ipComputadora;
     std::string  nombreComputadora;
-    std::stack<T>  conexionesEntrantes;
+    std::vector<T>  conexionesEntrantes;
     std::vector<T>  conexionesSalientes;
    
     /* data */
@@ -41,13 +41,13 @@ inline void ConexionesCompudatora<T>::rellenarRegistros(std::vector<T> &db)
 {
     for (size_t i = 0; i < db.size(); i++)
     {
-        if (ipComputadora ==db[i].ipDestino)
-        {
-            conexionesEntrantes.push(db[i]);
-        }
         if (ipComputadora ==db[i].ipOrigen)
         {
-            conexionesSalientes.push(db[i]);
+            conexionesEntrantes.push_back(db[i]);
+        }
+        if (ipComputadora ==db[i].ipDestino)
+        {
+            conexionesSalientes.push_back(db[i]);
           
         }
         
