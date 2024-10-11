@@ -69,35 +69,41 @@ inline void ConexionesCompudatora<T>::rellenarRegistros(std::vector<T> &db)
 template <typename T>
 void ConexionesCompudatora<T>::comprobarRegistrosConsecutivos()
 {
-    int contadorConsecutivos = 0;
+    int contadorConsecutivos = 1;
     int maxConsecutivos = 0;
+    std::string sitioWebMaxConsecutivos;
 
-    if (conexionesSalientes.size() < 2) 
+    if (conexionesSalientes.size() < 3) 
     {
-        std::cout << "No hay suficientes conexiones salientes para comprobar registros consecutivos." << std::endl;
+        std::cout << "No hay suficientes conexiones salientes para comprobar secuencias de tres o más conexiones." << std::endl;
         return;
     }
+
     for (size_t i = 1; i < conexionesSalientes.size(); i++) 
     {
-        if (conexionesSalientes[i].ipDestino == conexionesSalientes[i - 1].ipDestino)
+        if (conexionesSalientes[i].nombreDestino == conexionesSalientes[i - 1].nombreDestino) 
         {
             contadorConsecutivos++;
-        } 
-        else 
-        {
+
             if (contadorConsecutivos > maxConsecutivos) 
             {
                 maxConsecutivos = contadorConsecutivos;
+                sitioWebMaxConsecutivos = conexionesSalientes[i].nombreDestino;
             }
-            contadorConsecutivos = 0;
+        } 
+        else 
+        {
+            contadorConsecutivos = 1;
         }
     }
-    if (contadorConsecutivos > maxConsecutivos) 
-    {
-        maxConsecutivos = contadorConsecutivos;
-    }
 
-    std::cout << "La IP " << ipComputadora << " tuvo un máximo de " << (maxConsecutivos + 1) << " conexiones consecutivas con el mismo destino." << std::endl;
+    if (maxConsecutivos >= 3) 
+    {
+        std::cout << "La computadora ha realizado " << maxConsecutivos << " conexiones consecutivas al mismo sitio web: " << sitioWebMaxConsecutivos << std::endl;
+    } else 
+    {
+        std::cout << "No se encontraron secuencias de tres o más conexiones consecutivas al mismo sitio web." << std::endl;
+    }
 }
 
 #endif
