@@ -79,7 +79,7 @@ void ConexionesCompudatora<T>::comprobarRegistrosConsecutivos()
     }
     for (size_t i = 1; i < conexionesSalientes.size(); i++) 
     {
-        if (conexionesSalientes[i].ipOrigen == ipComputadora && conexionesSalientes[i].ipDestino == conexionesSalientes[i - 1].ipDestino) 
+        if (conexionesSalientes[i].ipDestino == conexionesSalientes[i - 1].ipDestino)
         {
             contadorConsecutivos++;
         } 
