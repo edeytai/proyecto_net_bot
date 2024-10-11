@@ -6,7 +6,6 @@
 #include <string>
 #include <algorithm>
 #include <set>
-#include <cctype> // for tolower
 #include <map>
 
 template <class T>
@@ -99,7 +98,11 @@ inline bool EntradaService<T>::buscarComputadoras(const std::vector<Entrada>& bi
         std::string nombreOrigenMinusculas = bitacora[i].nombreOrigen;
         std::transform(nombreOrigenMinusculas.begin(), nombreOrigenMinusculas.end(), nombreOrigenMinusculas.begin(), tolower);
 
-        if (nombreOrigenMinusculas == nombreBuscado + ".reto.com") 
+        std::string nombreDestinoMinusculas = bitacora[i].nombreDestino;
+        std::transform(nombreDestinoMinusculas.begin(), nombreDestinoMinusculas.end(), nombreDestinoMinusculas.begin(), tolower);
+
+        if (nombreOrigenMinusculas == nombreBuscado + ".reto.com" || 
+            nombreDestinoMinusculas == nombreBuscado + ".reto.com") 
         { 
             return true;
         }
@@ -147,36 +150,26 @@ inline std::string EntradaService<T>::internalNetworkAddress(const std::vector<E
 template <class T>
 inline std::set<std::string> EntradaService<T>::emailServicesUsed(const std::vector<Entrada> &vec)
 {
-    std::set<std::string> servicios;
-    for (std::vector<Entrada>::const_iterator it = vec.begin(); it != vec.end(); ++it)
+    std::set<std::string> emailServices;
+    std::set<int> emailPorts;
+    emailPorts.insert(465);
+    emailPorts.insert(433);
+    emailPorts.insert(110);
+    emailPorts.insert(143);
+    emailPorts.insert(993);
+    emailPorts.insert(995);
+    emailPorts.insert(25);
+    emailPorts.insert(587);
+
+    typename std::vector<Entrada>::const_iterator it;
+    for (it = vec.begin(); it != vec.end(); ++it)
     {
-        // Buscar patrones comunes en nombres de destino que sugieran servicios de correo
-        if (it->nombreDestino.find("gmail") != std::string::npos)
+        if (emailPorts.find(it->puertoDestino) != emailPorts.end() || emailPorts.find(it->puertoOrigen) != emailPorts.end())
         {
-            servicios.insert("Gmail");
-        }
-        else if (it->nombreDestino.find("microsoft") != std::string::npos)
-        {
-            servicios.insert("Outlook/Hotmail");
-        }
-        else if (it->nombreDestino.find("steamcommunity") != std::string::npos)
-        {
-            servicios.insert("Steam");
-        }
-        else if (it->nombreDestino.find("techradar") != std::string::npos)
-        {
-            servicios.insert("Tech Radar");
-        }
-        else if (it->nombreDestino.find("bestbuy") != std::string::npos)
-        {
-            servicios.insert("Best Buy");
-        }
-        else if (it->nombreDestino.find("expedia") != std::string::npos)
-        {
-            servicios.insert("Expedia");
+            emailServices.insert(it->nombreDestino);
         }
     }
-    return servicios;
+    return emailServices;
 }
 
 template <class T>
