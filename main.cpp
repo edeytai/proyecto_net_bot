@@ -17,6 +17,8 @@ int main(int argc, char const *argv[])
 
     pc1.comprobarRegistrosConsecutivos();
 
+    pc1.obtenerUltimaConexionEntrante();
+
     int documentDbSize= EntradaService<Entrada>::getSize(db);
     int documentDbSecondDaySize= EntradaService<Entrada>::getSizeByDay(db, "12-8-2020");
     std::cout << "Hay un total de " <<documentDbSize<<" registros" <<std::endl;

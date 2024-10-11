@@ -20,6 +20,7 @@ public:
     ConexionesCompudatora(std::string ip, std::string nombre);
     void rellenarRegistros(std::vector<T> &db);
     void comprobarRegistrosConsecutivos();
+    void obtenerUltimaConexionEntrante();
 };
 
 template <typename T>
@@ -104,6 +105,30 @@ void ConexionesCompudatora<T>::comprobarRegistrosConsecutivos()
     {
         std::cout << "No se encontraron secuencias de tres o más conexiones consecutivas al mismo sitio web." << std::endl;
     }
+}
+
+template <typename T>
+void ConexionesCompudatora<T>::obtenerUltimaConexionEntrante() 
+{
+    if (conexionesEntrantes.empty()) 
+    {
+        std::cout << "No hay conexiones entrantes para esta computadora." << std::endl;
+        return;
+    }
+
+    T ultimaConexion = conexionesEntrantes.back();
+    std::string ip = ultimaConexion.ipOrigen;
+
+    std::string tipoConexion;
+    if (ip.substr(0, 7) == "192.168.86") 
+    {
+        tipoConexion = "interna";
+    } 
+    else 
+    {
+        tipoConexion = "externa";
+    }
+    std::cout << "La última conexión que recibió la computadora fue desde la IP: " << ip << " y es una conexión " << tipoConexion << "." << std::endl;
 }
 
 #endif
