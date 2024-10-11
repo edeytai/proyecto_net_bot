@@ -70,14 +70,34 @@ template <typename T>
 void ConexionesCompudatora<T>::comprobarRegistrosConsecutivos()
 {
     int contadorConsecutivos = 0;
+    int maxConsecutivos = 0;
+
+    if (conexionesSalientes.size() < 2) 
+    {
+        std::cout << "No hay suficientes conexiones salientes para comprobar registros consecutivos." << std::endl;
+        return;
+    }
     for (size_t i = 1; i < conexionesSalientes.size(); i++) 
     {
-        if (conexionesSalientes[i].ipDestino == conexionesSalientes[i - 1].ipDestino) 
+        if (conexionesSalientes[i].ipOrigen == ipComputadora && conexionesSalientes[i].ipDestino == conexionesSalientes[i - 1].ipDestino) 
         {
             contadorConsecutivos++;
+        } 
+        else 
+        {
+            if (contadorConsecutivos > maxConsecutivos) 
+            {
+                maxConsecutivos = contadorConsecutivos;
+            }
+            contadorConsecutivos = 0;
         }
     }
-    std::cout << "Hubo un total de " << contadorConsecutivos << " conexiones consecutivas con el mismo destino" << std::endl;
+    if (contadorConsecutivos > maxConsecutivos) 
+    {
+        maxConsecutivos = contadorConsecutivos;
+    }
+
+    std::cout << "La IP " << ipComputadora << " tuvo un máximo de " << (maxConsecutivos + 1) << " conexiones consecutivas con el mismo destino." << std::endl;
 }
 
 #endif
