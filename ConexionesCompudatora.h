@@ -41,11 +41,11 @@ inline void ConexionesCompudatora<T>::rellenarRegistros(std::vector<T> &db)
 {
     for (size_t i = 0; i < db.size(); i++)
     {
-        if (ipComputadora ==db[i].ipOrigen)
+        if (ipComputadora ==db[i].ipDestino)
         {
             conexionesEntrantes.push_back(db[i]);
         }
-        if (ipComputadora ==db[i].ipDestino)
+        if (ipComputadora ==db[i].ipOrigen)
         {
             conexionesSalientes.push_back(db[i]);
           
