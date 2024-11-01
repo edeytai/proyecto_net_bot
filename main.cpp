@@ -94,16 +94,9 @@ int main(int argc, char const *argv[])
         bstLectura.top(db, *fecha, topN);
     }
 
-    // Generar top por día y analizar
     std::map<std::string, std::vector<conexionesEntrantes<Entrada> > > topPorDia = bstLectura.topPorDia(db, topN);
-    
-    // Frecuencia de dominios en el top 5 todos los días
     bstLectura.top5TodosLosDias(topPorDia);
-
-    // Identificar dominios que aparecen un día y en los subsecuentes
     bstLectura.apareceUnDiaYSubsecuentes(topPorDia);
-
-    // Mostrar dominios con más conexiones que el promedio en su día
     bstLectura.sitioConMuchasConexiones(topPorDia);
 
     return 0;
