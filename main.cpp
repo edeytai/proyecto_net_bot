@@ -80,14 +80,11 @@ int main(int argc, char const *argv[])
     }
 
     BSTLectura<Entrada> bstLectura;
-
-    // Generar y mostrar el top N de conexiones por día
     std::set<std::string> fechasUnicas;
     for (std::vector<Entrada>::iterator it = db.begin(); it != db.end(); ++it) 
     {
         fechasUnicas.insert(it->fecha);
     }
-    
     int topN = 5;
     for (std::set<std::string>::iterator fecha = fechasUnicas.begin(); fecha != fechasUnicas.end(); ++fecha) 
     {
