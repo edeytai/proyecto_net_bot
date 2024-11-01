@@ -1,9 +1,11 @@
 #include "Entrada.cpp"
 #include <iostream>
 #include <vector>
+#include <map>
+#include <set>
 #include "EntradaService.cpp"
 #include "ConexionesCompudatora.cpp"
-#include <map>
+#include "BSTLectura.cpp"
 
 int main(int argc, char const *argv[])
 {
@@ -76,5 +78,34 @@ int main(int argc, char const *argv[])
     {
         std::cout << "No se encontraron puertos destino debajo de 1000 en uso." << std::endl;
     }
+
+    BSTLectura<Entrada> bstLectura;
+
+    // Generar y mostrar el top N de conexiones por día
+    std::set<std::string> fechasUnicas;
+    for (std::vector<Entrada>::iterator it = db.begin(); it != db.end(); ++it) 
+    {
+        fechasUnicas.insert(it->fecha);
+    }
+    
+    int topN = 5;
+    for (std::set<std::string>::iterator fecha = fechasUnicas.begin(); fecha != fechasUnicas.end(); ++fecha) 
+    {
+        bstLectura.top(db, *fecha, topN);
+    }
+
+    // Generar top por día y analizar
+    std::map<std::string, std::vector<conexionesEntrantes<Entrada> > > topPorDia = bstLectura.topPorDia(db, topN);
+    
+    // Frecuencia de dominios en el top 5 todos los días
+    bstLectura.top5TodosLosDias(topPorDia);
+
+    // Identificar dominios que aparecen un día y en los subsecuentes
+    bstLectura.apareceUnDiaYSubsecuentes(topPorDia);
+
+    // Mostrar dominios con más conexiones que el promedio en su día
+    bstLectura.sitioConMuchasConexiones(topPorDia);
+
     return 0;
+
 }
