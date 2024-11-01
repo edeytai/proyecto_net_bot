@@ -13,6 +13,23 @@ int main(int argc, char const *argv[])
    
     std::vector<Entrada> db  = EntradaService<Entrada>::ObtenerDB("equipo2.csv");
     
+    BSTLectura<Entrada> bstLectura;
+    std::set<std::string> fechasUnicas;
+    for (std::vector<Entrada>::iterator it = db.begin(); it != db.end(); ++it) 
+    {
+        fechasUnicas.insert(it->fecha);
+    }
+    int topN = 5;
+    for (std::set<std::string>::iterator fecha = fechasUnicas.begin(); fecha != fechasUnicas.end(); ++fecha) 
+    {
+        bstLectura.top(db, *fecha, topN);
+    }
+
+    std::map<std::string, std::vector<conexionesEntrantes<Entrada> > > topPorDia = bstLectura.topPorDia(db, topN);
+    bstLectura.top5TodosLosDias(topPorDia);
+    bstLectura.apareceUnDiaYSubsecuentes(topPorDia);
+    bstLectura.sitioConMuchasConexiones(topPorDia);
+    
     std::string direccionRedInternaPc = EntradaService<Entrada>::internalNetworkAddress(db);
      ConexionesCompudatora<Entrada> pc1 = ConexionesCompudatora<Entrada> (direccionRedInternaPc, "mi pc");
     pc1.rellenarRegistros(db);
@@ -78,24 +95,5 @@ int main(int argc, char const *argv[])
     {
         std::cout << "No se encontraron puertos destino debajo de 1000 en uso." << std::endl;
     }
-
-    BSTLectura<Entrada> bstLectura;
-    std::set<std::string> fechasUnicas;
-    for (std::vector<Entrada>::iterator it = db.begin(); it != db.end(); ++it) 
-    {
-        fechasUnicas.insert(it->fecha);
-    }
-    int topN = 5;
-    for (std::set<std::string>::iterator fecha = fechasUnicas.begin(); fecha != fechasUnicas.end(); ++fecha) 
-    {
-        bstLectura.top(db, *fecha, topN);
-    }
-
-    std::map<std::string, std::vector<conexionesEntrantes<Entrada> > > topPorDia = bstLectura.topPorDia(db, topN);
-    bstLectura.top5TodosLosDias(topPorDia);
-    bstLectura.apareceUnDiaYSubsecuentes(topPorDia);
-    bstLectura.sitioConMuchasConexiones(topPorDia);
-
     return 0;
-
 }

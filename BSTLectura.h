@@ -49,8 +49,11 @@ template <typename T>
 std::map<std::string, int> BSTLectura<T>::conexionesPorDia(const std::vector<T>& db, const std::string& fecha) 
 {
     std::map<std::string, int> conexiones;
-    for (typename std::vector<T>::const_iterator it = db.begin(); it != db.end(); ++it) {
-        if (it->fecha == fecha && it->nombreDestino != "-" && it->nombreDestino.find(".reto.com") == std::string::npos) 
+    for (typename std::vector<T>::const_iterator it = db.begin(); it != db.end(); ++it) 
+    {
+        if (it->fecha == fecha && it->nombreDestino != "-" && 
+            it->nombreDestino.find(".reto.com") == std::string::npos &&
+            (it->puertoDestino == 80 || it->puertoDestino == 443)) 
         {
             conexiones[it->nombreDestino]++;
         }
@@ -68,6 +71,7 @@ void BSTLectura<T>::top(const std::vector<T>& db, const std::string& fecha, int 
         conexionesVec.push_back(conexionesEntrantes<T>(it->first, it->second));
     }
     std::sort(conexionesVec.begin(), conexionesVec.end());
+    std::cout << "--------------------------------------------------------------\n";
     std::cout << "Top " << topN << " conexiones para la fecha " << fecha << ":\n";
     for (int i = 0; i < topN && i < conexionesVec.size(); ++i) 
     {
@@ -81,22 +85,27 @@ std::map<std::string, std::vector<conexionesEntrantes<T> > > BSTLectura<T>::topP
     std::set<std::string> fechasUnicas;
     for (typename std::vector<T>::const_iterator it = db.begin(); it != db.end(); ++it) 
     {
-        fechasUnicas.insert(it->fecha);
+        if (it->puertoDestino == 80 || it->puertoDestino == 443) 
+        {
+            fechasUnicas.insert(it->fecha);
+        }
     }
-    std::map<std::string, std::vector<conexionesEntrantes<T> > > topnporfecha;
-    for (typename std::set<std::string>::iterator fecha = fechasUnicas.begin(); fecha != fechasUnicas.end(); ++fecha) 
+    std::map<std::string, std::vector<conexionesEntrantes<T> > > topConexionesPorDia;
+    for (std::set<std::string>::iterator fechaIt = fechasUnicas.begin(); fechaIt != fechasUnicas.end(); ++fechaIt) 
     {
-        std::map<std::string, int> conexionesMap = conexionesPorDia(db, *fecha);
+        std::map<std::string, int> conexionesMap = conexionesPorDia(db, *fechaIt);
         std::vector<conexionesEntrantes<T> > conexionesVec;
         for (typename std::map<std::string, int>::iterator it = conexionesMap.begin(); it != conexionesMap.end(); ++it) 
         {
             conexionesVec.push_back(conexionesEntrantes<T>(it->first, it->second));
         }
         std::sort(conexionesVec.begin(), conexionesVec.end());
-        if (conexionesVec.size() > n) conexionesVec.resize(n);
-        topnporfecha[*fecha] = conexionesVec;
+        if (conexionesVec.size() > n) {
+            conexionesVec.resize(n);
+        }
+        topConexionesPorDia[*fechaIt] = conexionesVec;
     }
-    return topnporfecha;
+    return topConexionesPorDia;
 }
 
 template <typename T>
@@ -112,6 +121,7 @@ void BSTLectura<T>::top5TodosLosDias(const std::map<std::string, std::vector<con
     }
     for (typename std::map<std::string, int>::const_iterator it = dominioFrecuencia.begin(); it != dominioFrecuencia.end(); ++it) 
     {
+        std::cout << "--------------------------------------------------------------\n";
         std::cout << it->first << " aparece en " << it->second << " días.\n";
     }
 }
@@ -138,6 +148,7 @@ void BSTLectura<T>::apareceUnDiaYSubsecuentes(const std::map<std::string, std::v
 
             if (apareceEnTodos) 
             {
+                std::cout << "--------------------------------------------------------------\n";
                 std::cout << vecIt->dominio << " aparece en " << it->first << " y en todos los días subsecuentes.\n";
                 dominiosImpresos.insert(vecIt->dominio);
             }
@@ -169,6 +180,7 @@ void BSTLectura<T>::sitioConMuchasConexiones(const std::map<std::string, std::ve
             totalConexiones += vecIt->cantidad;
         }
         double promedio = static_cast<double>(totalConexiones) / it->second.size();
+        std::cout << "--------------------------------------------------------------\n";
         std::cout << "Sitios con conexiones superiores al promedio para el día " << it->first << ":\n";
         for (typename std::vector<conexionesEntrantes<T> >::const_iterator vecIt = it->second.begin(); vecIt != it->second.end(); ++vecIt) 
         {
