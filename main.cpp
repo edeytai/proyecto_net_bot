@@ -4,7 +4,7 @@
 #include <map>
 #include <set>
 #include "EntradaService.cpp"
-#include "ConexionesCompudatora.cpp"
+#include "ConexionesComputadora.cpp"
 #include "BSTLectura.cpp"
 #include "Graph.cpp"
 
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
    bstLectura.sitioConMuchasConexiones(topPorDia);
    
    std::string direccionRedInternaPc = EntradaService<Entrada>::internalNetworkAddress(db);
-    ConexionesCompudatora<Entrada> pc1 = ConexionesCompudatora<Entrada> (direccionRedInternaPc, "mi pc");
+    ConexionesComputadora<Entrada> pc1 = ConexionesComputadora<Entrada> (direccionRedInternaPc, "mi pc");
    pc1.rellenarRegistros(db);
 
    pc1.comprobarRegistrosConsecutivos();
